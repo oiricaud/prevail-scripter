@@ -19,7 +19,9 @@ oc apply -n kabanero -f https://raw.githubusercontent.com/kabanero-io/kabanero-o
 oc create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=admin
 oc apply --filename https://storage.googleapis.com/tekton-releases/triggers/previous/v0.2.0/release.yaml
 
-# Install Storefront Pipelines
+# Install Storefront Pipelines for kabanero < v0.6.0
 git clone https://github.com/ibm-garage-ref-storefront/devops-pipelines
 cd devops-pipelines
-oc apply --recursive --filename ./devops-pipelines/
+oc apply --recursive --filename ./devops-pipelines/pipelines/stable/storefront-springboot
+
+## now validate the pipeline
