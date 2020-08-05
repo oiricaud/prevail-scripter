@@ -25,3 +25,31 @@ https://www.ibm.com/cloud/garage/dte/tutorial/multi-cluster-application-manageme
 
 Run through steps until you reach "Add a Managed Cluster"
 
+1. Install Kabanero by running the following script
+
+    ```bash
+    ./install_kabanero.sh
+    ```
+2. Install Tekton Triggers by running the following script
+    ```bash
+    ./install_tekton_triggers.sh
+    ```
+3. Install custom pipelines by running the following script
+    ```bash
+    ./install_storefront_pipelines.sh
+    ```
+4. Install bluecompute microservices 
+    ```bash
+    ./install_bluecompute_ms.sh
+    ```
+5. Edit your git resource and update the URL 
+    ```bash
+    vim pipeline-git-resource.yaml
+    ```
+6. Create your pipeline resources and persistent volume 
+   ```bash
+    cd project kabanero
+    oc apply -f pv.yaml
+    oc apply -f pipeline-image-resource.yaml
+    oc apply -f pipelien-git-resource.yaml
+    ```
