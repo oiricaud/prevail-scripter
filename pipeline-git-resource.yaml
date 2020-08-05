@@ -1,0 +1,12 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineResource
+metadata:
+  name: my-pipeline-resource-git
+  namespace: kabanero
+spec:
+  type: git
+  params:
+    - name: url
+      value: your-storefront-ui-nodejs-github-url # https://github.com/oiricaud/storefront-ui
+    - name: revision
+      value: master
