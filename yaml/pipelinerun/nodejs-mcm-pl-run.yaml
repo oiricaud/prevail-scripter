@@ -1,0 +1,481 @@
+apiVersion: tekton.dev/v1alpha1
+kind: PipelineRun
+metadata:
+  generateName: nodejs-mcm-pl-run-
+  annotations:
+  name: nodejs-mcm-pl-run-5wx58
+  namespace: kabanero
+spec:
+  params:
+    - name: event-type
+      value: push
+  pipelineRef:
+    name: nodejs-mcm-pl
+  resources:
+    - name: git-source
+      resourceRef:
+        name: git-source-mglg4
+    - name: docker-image
+      resourceRef:
+        name: docker-image-mglg4
+  serviceAccountName: pipeline
+  timeout: 1h0m0s
+status:
+  completionTime: '2020-08-12T20:35:33Z'
+  conditions:
+    - lastTransitionTime: '2020-08-12T20:35:33Z'
+      message: All Tasks have completed executing
+      reason: Succeeded
+      status: 'True'
+      type: Succeeded
+  startTime: '2020-08-12T20:19:58Z'
+  taskRuns:
+    nodejs-mcm-pl-run-5wx58-automation-testing-w8ptf:
+      pipelineTaskName: automation-testing
+      status:
+        completionTime: '2020-08-12T20:35:07Z'
+        conditions:
+          - lastTransitionTime: '2020-08-12T20:35:07Z'
+            message: All Steps have completed executing
+            reason: Succeeded
+            status: 'True'
+            type: Succeeded
+        podName: nodejs-mcm-pl-run-5wx58-automation-testing-w8ptf-pod-bc9rg
+        resourcesResult:
+          - digest: ''
+            key: commit
+            name: ''
+            resourceRef: {}
+            value: 36aff5d9a9cb4ece0c3f79532faaffa2e24ab693
+        startTime: '2020-08-12T20:34:52Z'
+        steps:
+          - container: step-run-automation-tests
+            imageID: >-
+              docker.io/library/node@sha256:96199adadcadf6c63b9374afcc92c3bcfbacd90fbb2b7372874211375d82fb1b
+            name: run-automation-tests
+            terminated:
+              containerID: >-
+                cri-o://e69c04d0812b4f5eb62b23e6a3335f4ab59ebb7320997c9cf4a6f4227ef9a72b
+              exitCode: 0
+              finishedAt: '2020-08-12T20:35:06Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:35:06Z'
+          - container: step-git-source-git-source-mglg4-2998n
+            imageID: >-
+              quay.io/openshift-pipeline/tektoncd-pipeline-git-init@sha256:0956ae04297fe4740af495ec1d6d51bd7fbd79686f5d5a4ea09ca44c4e9838cf
+            name: git-source-git-source-mglg4-2998n
+            terminated:
+              containerID: >-
+                cri-o://5fae1123c6488cf44764a1ee67896eb9560f7eb0818750d518070407f0e7c2f2
+              exitCode: 0
+              finishedAt: '2020-08-12T20:35:06Z'
+              message: >-
+                [{"name":"","digest":"","key":"commit","value":"36aff5d9a9cb4ece0c3f79532faaffa2e24ab693","resourceRef":{}}]
+              reason: Completed
+              startedAt: '2020-08-12T20:35:05Z'
+    nodejs-mcm-pl-run-5wx58-build-push-task-vprkk:
+      pipelineTaskName: build-push-task
+      status:
+        completionTime: '2020-08-12T20:30:45Z'
+        conditions:
+          - lastTransitionTime: '2020-08-12T20:30:45Z'
+            message: All Steps have completed executing
+            reason: Succeeded
+            status: 'True'
+            type: Succeeded
+        podName: nodejs-mcm-pl-run-5wx58-build-push-task-vprkk-pod-flxqs
+        resourcesResult:
+          - digest: ''
+            key: commit
+            name: ''
+            resourceRef: {}
+            value: 36aff5d9a9cb4ece0c3f79532faaffa2e24ab693
+        startTime: '2020-08-12T20:22:08Z'
+        steps:
+          - container: step-imagename-lowercase
+            imageID: >-
+              docker.io/appsody/appsody-buildah@sha256:c31db8290a6b3e105058bbfd6aa48eff365a00dc16e5ba41f26e24964b3a3446
+            name: imagename-lowercase
+            terminated:
+              containerID: >-
+                cri-o://d9921b7a4108fbaf747d8eb481dfb2e519836068862e9bb7c7eb62d629c4d3d4
+              exitCode: 0
+              finishedAt: '2020-08-12T20:22:45Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:22:45Z'
+          - container: step-build
+            imageID: >-
+              docker.io/appsody/appsody-buildah@sha256:c31db8290a6b3e105058bbfd6aa48eff365a00dc16e5ba41f26e24964b3a3446
+            name: build
+            terminated:
+              containerID: >-
+                cri-o://04bb10c261764efb35b5c258dbf62c4a1932d833f9744f04b2757b96eacab1de
+              exitCode: 0
+              finishedAt: '2020-08-12T20:29:50Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:22:46Z'
+          - container: step-push
+            imageID: >-
+              docker.io/appsody/appsody-buildah@sha256:c31db8290a6b3e105058bbfd6aa48eff365a00dc16e5ba41f26e24964b3a3446
+            name: push
+            terminated:
+              containerID: >-
+                cri-o://999b495598f5d782ab697b5734ee6ad6bc66de492c236bed9bfcc442a7faa47e
+              exitCode: 0
+              finishedAt: '2020-08-12T20:30:43Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:29:51Z'
+          - container: step-git-source-git-source-mglg4-dvm4h
+            imageID: >-
+              quay.io/openshift-pipeline/tektoncd-pipeline-git-init@sha256:0956ae04297fe4740af495ec1d6d51bd7fbd79686f5d5a4ea09ca44c4e9838cf
+            name: git-source-git-source-mglg4-dvm4h
+            terminated:
+              containerID: >-
+                cri-o://78c9313899e0327279ebe60055859f121d01eb559f47b1946d9a1537f4499f99
+              exitCode: 0
+              finishedAt: '2020-08-12T20:22:45Z'
+              message: >-
+                [{"name":"","digest":"","key":"commit","value":"36aff5d9a9cb4ece0c3f79532faaffa2e24ab693","resourceRef":{}}]
+              reason: Completed
+              startedAt: '2020-08-12T20:22:44Z'
+          - container: step-image-digest-exporter-gzzx4
+            imageID: >-
+              quay.io/openshift-pipeline/tektoncd-pipeline-imagedigestexporter@sha256:bc12f889c9f28f7f7efeb9854df0e390869fdf1b6505bea31a4c17b3014becd3
+            name: image-digest-exporter-gzzx4
+            terminated:
+              containerID: >-
+                cri-o://4b4a04addefc89748c48afcab6628dc74ecf8c6c42dfb9263e88c7d09ef4c58a
+              exitCode: 0
+              finishedAt: '2020-08-12T20:30:44Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:30:44Z'
+          - container: step-create-dir-docker-image-llhlb
+            imageID: >-
+              registry.access.redhat.com/ubi8/ubi-minimal@sha256:3364fa3bd7a5aea2932e352a446ec7f46378885f6a8f03847acc64dd100aa4cc
+            name: create-dir-docker-image-llhlb
+            terminated:
+              containerID: >-
+                cri-o://fd382e943957da0ea60693a02e455c59441ce562e8c61052dcc8da589fa42695
+              exitCode: 0
+              finishedAt: '2020-08-12T20:22:43Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:22:43Z'
+          - container: step-create-dir-git-source-m7c6h
+            imageID: >-
+              registry.access.redhat.com/ubi8/ubi-minimal@sha256:3364fa3bd7a5aea2932e352a446ec7f46378885f6a8f03847acc64dd100aa4cc
+            name: create-dir-git-source-m7c6h
+            terminated:
+              containerID: >-
+                cri-o://8e651df4072bedd8be241ddfee08b28ec45d8f408de87bf385703084fb53d1c5
+              exitCode: 0
+              finishedAt: '2020-08-12T20:22:43Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:22:43Z'
+          - container: step-source-copy-git-source-mglg4-qqbgl
+            imageID: >-
+              registry.access.redhat.com/ubi8/ubi-minimal@sha256:3364fa3bd7a5aea2932e352a446ec7f46378885f6a8f03847acc64dd100aa4cc
+            name: source-copy-git-source-mglg4-qqbgl
+            terminated:
+              containerID: >-
+                cri-o://dce281529ac9fdba3cf292e08b0a9f79d523449d2429af395aa04a9f6a72ff09
+              exitCode: 0
+              finishedAt: '2020-08-12T20:30:45Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:30:44Z'
+          - container: step-source-mkdir-git-source-mglg4-hr559
+            imageID: >-
+              registry.access.redhat.com/ubi8/ubi-minimal@sha256:3364fa3bd7a5aea2932e352a446ec7f46378885f6a8f03847acc64dd100aa4cc
+            name: source-mkdir-git-source-mglg4-hr559
+            terminated:
+              containerID: >-
+                cri-o://5bbc28d328725e0bcddd2ec774a5d959981b30b5e037ba2e479ea0bce581b224
+              exitCode: 0
+              finishedAt: '2020-08-12T20:30:44Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:30:44Z'
+    nodejs-mcm-pl-run-5wx58-gitops-cwm8s:
+      pipelineTaskName: gitops
+      status:
+        completionTime: '2020-08-12T20:34:42Z'
+        conditions:
+          - lastTransitionTime: '2020-08-12T20:34:42Z'
+            message: All Steps have completed executing
+            reason: Succeeded
+            status: 'True'
+            type: Succeeded
+        podName: nodejs-mcm-pl-run-5wx58-gitops-cwm8s-pod-klgtc
+        resourcesResult:
+          - digest: ''
+            key: commit
+            name: ''
+            resourceRef: {}
+            value: 36aff5d9a9cb4ece0c3f79532faaffa2e24ab693
+        startTime: '2020-08-12T20:34:26Z'
+        steps:
+          - container: step-clone-update-repo
+            imageID: >-
+              docker.io/library/node@sha256:96199adadcadf6c63b9374afcc92c3bcfbacd90fbb2b7372874211375d82fb1b
+            name: clone-update-repo
+            terminated:
+              containerID: >-
+                cri-o://57e7f4456b85c9b8b959a7c588fbe845e66d3ac9328f7988f5810744a93bae19
+              exitCode: 0
+              finishedAt: '2020-08-12T20:34:41Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:34:38Z'
+          - container: step-git-source-git-source-mglg4-lvpm5
+            imageID: >-
+              quay.io/openshift-pipeline/tektoncd-pipeline-git-init@sha256:0956ae04297fe4740af495ec1d6d51bd7fbd79686f5d5a4ea09ca44c4e9838cf
+            name: git-source-git-source-mglg4-lvpm5
+            terminated:
+              containerID: >-
+                cri-o://dcfbd04a138245176d271d966938ee306573943f8bdbf0f17f35f9ea9ac91d81
+              exitCode: 0
+              finishedAt: '2020-08-12T20:34:37Z'
+              message: >-
+                [{"name":"","digest":"","key":"commit","value":"36aff5d9a9cb4ece0c3f79532faaffa2e24ab693","resourceRef":{}}]
+              reason: Completed
+              startedAt: '2020-08-12T20:34:36Z'
+    nodejs-mcm-pl-run-5wx58-gitops-pr-8chs7:
+      pipelineTaskName: gitops-pr
+      status:
+        completionTime: '2020-08-12T20:35:23Z'
+        conditions:
+          - lastTransitionTime: '2020-08-12T20:35:23Z'
+            message: All Steps have completed executing
+            reason: Succeeded
+            status: 'True'
+            type: Succeeded
+        podName: nodejs-mcm-pl-run-5wx58-gitops-pr-8chs7-pod-zscjd
+        resourcesResult:
+          - digest: ''
+            key: commit
+            name: ''
+            resourceRef: {}
+            value: 36aff5d9a9cb4ece0c3f79532faaffa2e24ab693
+        startTime: '2020-08-12T20:35:07Z'
+        steps:
+          - container: step-clone-update-repo
+            imageID: >-
+              docker.io/library/node@sha256:96199adadcadf6c63b9374afcc92c3bcfbacd90fbb2b7372874211375d82fb1b
+            name: clone-update-repo
+            terminated:
+              containerID: >-
+                cri-o://2010d13e378e5d2e916472604d6cc9f2e341bd2f7443c6672e0f21c7e15612a8
+              exitCode: 0
+              finishedAt: '2020-08-12T20:35:23Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:35:19Z'
+          - container: step-git-source-git-source-mglg4-w5h4q
+            imageID: >-
+              quay.io/openshift-pipeline/tektoncd-pipeline-git-init@sha256:0956ae04297fe4740af495ec1d6d51bd7fbd79686f5d5a4ea09ca44c4e9838cf
+            name: git-source-git-source-mglg4-w5h4q
+            terminated:
+              containerID: >-
+                cri-o://95ede3c75520c4fef116ca1339eb210f055afb1430d66e0ae29db78b08d3d4fc
+              exitCode: 0
+              finishedAt: '2020-08-12T20:35:18Z'
+              message: >-
+                [{"name":"","digest":"","key":"commit","value":"36aff5d9a9cb4ece0c3f79532faaffa2e24ab693","resourceRef":{}}]
+              reason: Completed
+              startedAt: '2020-08-12T20:35:17Z'
+    nodejs-mcm-pl-run-5wx58-image-scan-task-9gqd5:
+      pipelineTaskName: image-scan-task
+      status:
+        completionTime: '2020-08-12T20:34:25Z'
+        conditions:
+          - lastTransitionTime: '2020-08-12T20:34:25Z'
+            message: All Steps have completed executing
+            reason: Succeeded
+            status: 'True'
+            type: Succeeded
+        podName: nodejs-mcm-pl-run-5wx58-image-scan-task-9gqd5-pod-9874m
+        resourcesResult:
+          - digest: ''
+            key: commit
+            name: ''
+            resourceRef: {}
+            value: 36aff5d9a9cb4ece0c3f79532faaffa2e24ab693
+        startTime: '2020-08-12T20:30:45Z'
+        steps:
+          - container: step-imagename-lowercase
+            imageID: >-
+              docker.io/appsody/appsody-buildah@sha256:c31db8290a6b3e105058bbfd6aa48eff365a00dc16e5ba41f26e24964b3a3446
+            name: imagename-lowercase
+            terminated:
+              containerID: >-
+                cri-o://b86cdb771bb6becb31fb57da10f490f7b58c17a9b768ed4ff98873208be02f2c
+              exitCode: 0
+              finishedAt: '2020-08-12T20:30:59Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:30:59Z'
+          - container: step-mount-image
+            imageID: >-
+              docker.io/appsody/appsody-buildah@sha256:405ea5d4c6ed9ef49f20fedcaeff57c9b3eba4c49cd9179f5a7c487ac45985ee
+            name: mount-image
+            terminated:
+              containerID: >-
+                cri-o://db3889745d0588cab752c0611206567f3ba52836c731f13c10dda1338e067936
+              exitCode: 0
+              finishedAt: '2020-08-12T20:34:04Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:30:59Z'
+          - container: step-scan-image
+            imageID: >-
+              docker.io/kabanero/scanner@sha256:82b979de485fc5990d41b8b4acc2aeee2211bd26b0f03374f5657773ae4148f9
+            name: scan-image
+            terminated:
+              containerID: >-
+                cri-o://1ac1d4e2facea941ddc144a2dd973c768bac38ec094831f998124f8d830ebdcf
+              exitCode: 0
+              finishedAt: '2020-08-12T20:34:25Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:34:04Z'
+          - container: step-git-source-git-source-mglg4-57s2k
+            imageID: >-
+              quay.io/openshift-pipeline/tektoncd-pipeline-git-init@sha256:0956ae04297fe4740af495ec1d6d51bd7fbd79686f5d5a4ea09ca44c4e9838cf
+            name: git-source-git-source-mglg4-57s2k
+            terminated:
+              containerID: >-
+                cri-o://5273215a6cb4bcc33aceae50e6797ef190a032f46dcc8d03c06c50e0f2b253c1
+              exitCode: 0
+              finishedAt: '2020-08-12T20:30:58Z'
+              message: >-
+                [{"name":"","digest":"","key":"commit","value":"36aff5d9a9cb4ece0c3f79532faaffa2e24ab693","resourceRef":{}}]
+              reason: Completed
+              startedAt: '2020-08-12T20:30:57Z'
+    nodejs-mcm-pl-run-5wx58-slack-post-dev-49f87:
+      pipelineTaskName: slack-post-dev
+      status:
+        completionTime: '2020-08-12T20:34:52Z'
+        conditions:
+          - lastTransitionTime: '2020-08-12T20:34:52Z'
+            message: All Steps have completed executing
+            reason: Succeeded
+            status: 'True'
+            type: Succeeded
+        podName: nodejs-mcm-pl-run-5wx58-slack-post-dev-49f87-pod-64fpn
+        startTime: '2020-08-12T20:34:42Z'
+        steps:
+          - container: step-post
+            imageID: >-
+              docker.io/curlimages/curl@sha256:99a8e9629b3ae26efb977e1a98f4786d6bd730c5ab4dea64632e297d7c3e7151
+            name: post
+            terminated:
+              containerID: >-
+                cri-o://5cf1fd3c799144fd29821e96d84e43d65286499572816dbdb4740b8d1ebfb1ba
+              exitCode: 0
+              finishedAt: '2020-08-12T20:34:52Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:34:50Z'
+    nodejs-mcm-pl-run-5wx58-slack-post-qa-cz7gq:
+      pipelineTaskName: slack-post-qa
+      status:
+        completionTime: '2020-08-12T20:35:33Z'
+        conditions:
+          - lastTransitionTime: '2020-08-12T20:35:33Z'
+            message: All Steps have completed executing
+            reason: Succeeded
+            status: 'True'
+            type: Succeeded
+        podName: nodejs-mcm-pl-run-5wx58-slack-post-qa-cz7gq-pod-tzgwh
+        startTime: '2020-08-12T20:35:24Z'
+        steps:
+          - container: step-post
+            imageID: >-
+              docker.io/curlimages/curl@sha256:99a8e9629b3ae26efb977e1a98f4786d6bd730c5ab4dea64632e297d7c3e7151
+            name: post
+            terminated:
+              containerID: >-
+                cri-o://ac811f8e6d6021b05604cca53bfad780149e5f95dd703f35b18863a25d17578b
+              exitCode: 0
+              finishedAt: '2020-08-12T20:35:32Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:35:32Z'
+    nodejs-mcm-pl-run-5wx58-test-zhczq:
+      pipelineTaskName: test
+      status:
+        completionTime: '2020-08-12T20:22:08Z'
+        conditions:
+          - lastTransitionTime: '2020-08-12T20:22:08Z'
+            message: All Steps have completed executing
+            reason: Succeeded
+            status: 'True'
+            type: Succeeded
+        podName: nodejs-mcm-pl-run-5wx58-test-zhczq-pod-2m7qm
+        resourcesResult:
+          - digest: ''
+            key: commit
+            name: ''
+            resourceRef: {}
+            value: 36aff5d9a9cb4ece0c3f79532faaffa2e24ab693
+        startTime: '2020-08-12T20:19:58Z'
+        steps:
+          - container: step-build
+            imageID: >-
+              docker.io/library/node@sha256:96199adadcadf6c63b9374afcc92c3bcfbacd90fbb2b7372874211375d82fb1b
+            name: build
+            terminated:
+              containerID: >-
+                cri-o://9a3f4c64c21b0af9b07bdb967aa6ab09d844f048fc235758f5f4fd3a20615ad1
+              exitCode: 0
+              finishedAt: '2020-08-12T20:20:40Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:20:13Z'
+          - container: step-git-source-git-source-mglg4-xtr9l
+            imageID: >-
+              quay.io/openshift-pipeline/tektoncd-pipeline-git-init@sha256:0956ae04297fe4740af495ec1d6d51bd7fbd79686f5d5a4ea09ca44c4e9838cf
+            name: git-source-git-source-mglg4-xtr9l
+            terminated:
+              containerID: >-
+                cri-o://b4b9b4957a5edd6e611bd7925ffe9dfd71a160018c38c1cd279fe3b97e7b8960
+              exitCode: 0
+              finishedAt: '2020-08-12T20:20:12Z'
+              message: >-
+                [{"name":"","digest":"","key":"commit","value":"36aff5d9a9cb4ece0c3f79532faaffa2e24ab693","resourceRef":{}}]
+              reason: Completed
+              startedAt: '2020-08-12T20:20:11Z'
+          - container: step-publish-pact
+            imageID: >-
+              docker.io/library/node@sha256:96199adadcadf6c63b9374afcc92c3bcfbacd90fbb2b7372874211375d82fb1b
+            name: publish-pact
+            terminated:
+              containerID: >-
+                cri-o://e708dc937f26cf10e4655c388135f069ee04e5ad2c695ee0298492fcbb9555bd
+              exitCode: 0
+              finishedAt: '2020-08-12T20:20:44Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:20:44Z'
+          - container: step-verify-pact
+            imageID: >-
+              docker.io/library/node@sha256:96199adadcadf6c63b9374afcc92c3bcfbacd90fbb2b7372874211375d82fb1b
+            name: verify-pact
+            terminated:
+              containerID: >-
+                cri-o://9dda4a4746ec6630426b9e192ffd521cb49228dbf219bb0f4ea462aa5e0654ed
+              exitCode: 0
+              finishedAt: '2020-08-12T20:20:45Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:20:44Z'
+          - container: step-sonar-scan
+            imageID: >-
+              docker.io/library/node@sha256:96199adadcadf6c63b9374afcc92c3bcfbacd90fbb2b7372874211375d82fb1b
+            name: sonar-scan
+            terminated:
+              containerID: >-
+                cri-o://843b35b702e14032752bd07bcb0ef97ad451249145c33c0afd19c465b67487d0
+              exitCode: 0
+              finishedAt: '2020-08-12T20:22:07Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:20:45Z'
+          - container: step-test
+            imageID: >-
+              docker.io/library/node@sha256:96199adadcadf6c63b9374afcc92c3bcfbacd90fbb2b7372874211375d82fb1b
+            name: test
+            terminated:
+              containerID: >-
+                cri-o://522c1344e47ab4be2bca19c29b5de741d5a8b7aa06c8b6731a15fe40bc202d3a
+              exitCode: 0
+              finishedAt: '2020-08-12T20:20:43Z'
+              reason: Completed
+              startedAt: '2020-08-12T20:20:40Z'
