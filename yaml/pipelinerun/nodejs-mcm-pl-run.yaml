@@ -2,6 +2,7 @@ apiVersion: tekton.dev/v1alpha1
 kind: PipelineRun
 metadata:
   generateName: nodejs-mcm-pl-run-
+  name: nodejs-mcm-pl-run-5wx58
   namespace: kabanero
 spec:
   params:
