@@ -7,7 +7,7 @@ spec:
   inputs:
     params:
       - default: 'node:12-stretch'
-        name: jsimage
+        name: js-image
         type: string
     resources:
       - name: source
@@ -33,7 +33,7 @@ spec:
           npm run build --if-present
       command:
         - /bin/bash
-      image: $(inputs.params.jsimage)
+      image: 'node:12-stretch'
       name: build
       resources: {}
       workingDir: $(inputs.resources.source.path)
@@ -44,7 +44,7 @@ spec:
           CI=true npm test
       command:
         - /bin/bash
-      image: $(inputs.params.jsimage)
+      image: 'node:12-stretch'
       name: test
       resources: {}
       workingDir: $(inputs.resources.source.path)
@@ -59,7 +59,7 @@ spec:
           fi
       command:
         - /bin/bash
-      image: $(inputs.params.jsimage)
+      image: 'node:12-stretch'
       name: publish-pact
       resources: {}
       workingDir: $(inputs.resources.source.path)
@@ -74,7 +74,7 @@ spec:
           fi
       command:
         - /bin/bash
-      image: $(inputs.params.jsimage)
+      image: 'node:12-stretch'
       name: verify-pact
       resources: {}
       workingDir: $(inputs.resources.source.path)
