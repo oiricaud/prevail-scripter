@@ -14,10 +14,10 @@ spec:
         description: 'Specifies the type of SCAP content to use. For example, oval or xccdf.'
         name: module
         type: string
-      - default: ''
-        description: Specifies the module operation options and arguments
-        name: options-and-arguments
-        type: string
+#      - default: ''
+#        description: Specifies the module operation options and arguments
+#        name: options-and-arguments
+#        type: string
       - default: kabanero/scans
         description: The relative directory to save the scan outputs to
         name: scansDir
