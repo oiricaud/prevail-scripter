@@ -23,6 +23,13 @@ bluecompute project to deploy a microservice to Redhat Openshift.
 Go ahead an provision an Openshift Cluster, use the dropdown and select 4 hours as the duration of the demo.
 https://www.ibm.com/cloud/garage/dte/tutorial/multi-cluster-application-management
 
+Run these two steps first: 
+```bash
+ssh ocp
+
+oc login -u admin -p passw0rd https://ocp.ibm.demo:8443
+```
+
 Run through steps until you reach "Add a Managed Cluster"
 
 1. Install Kabanero by running the following script
