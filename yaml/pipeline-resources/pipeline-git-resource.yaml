@@ -7,8 +7,8 @@ spec:
   type: git
   params:
     - name: url
-      value: https://github.com/oiricaud/customer-ms-spring
+      value: https://github.com/oiricaud/devops-demo-bluecompute-web
     - name: revision
-      value: faa15c04dbf5a6d98d93c9755569d99c640d07df
+      value: 6edb32bcc1a23c7abae013b52dba4c126b20549d
 
 

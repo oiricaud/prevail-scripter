@@ -36,18 +36,20 @@ spec:
       image: 'node:12-stretch'
       name: build
       resources: {}
-      workingDir: $(inputs.resources.source.path)
+      workingDir: '/workspace/source'
     - args:
         - '-c'
         - |
           set -e
+          ls -la
+          pwd
           CI=true npm test
       command:
         - /bin/bash
       image: 'node:12-stretch'
       name: test
       resources: {}
-      workingDir: $(inputs.resources.source.path)
+      workingDir: '/workspace/source'
     - args:
         - '-c'
         - |
@@ -62,7 +64,7 @@ spec:
       image: 'node:12-stretch'
       name: publish-pact
       resources: {}
-      workingDir: $(inputs.resources.source.path)
+      workingDir: '/workspace/source'
     - args:
         - '-c'
         - |
@@ -77,7 +79,7 @@ spec:
       image: 'node:12-stretch'
       name: verify-pact
       resources: {}
-      workingDir: $(inputs.resources.source.path)
+      workingDir: '/workspace/source'
     - args:
         - '-c'
         - |
@@ -103,4 +105,4 @@ spec:
       image: 'node:12-stretch'
       name: sonar-scan
       resources: {}
-      workingDir: $(inputs.resources.source.path)
+      workingDir: '/workspace/source'

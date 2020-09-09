@@ -13,9 +13,9 @@ spec:
   resources:
     - name: git-source
       resourceRef:
-        name: my-pipeline-resource-git
+        name: git-source-mglg4
     - name: docker-image
       resourceRef:
-        name: my-pipeline-resource-image
+        name: docker-image-mglg4
   serviceAccountName: pipeline
   timeout: 1h0m0s
