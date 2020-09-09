@@ -1,12 +1,14 @@
 apiVersion: tekton.dev/v1alpha1
 kind: PipelineResource
 metadata:
-  name: my-pipeline-resource-git
+  name: git-source-mglg4
   namespace: kabanero
 spec:
   type: git
   params:
     - name: url
-      value: your-storefront-ui-nodejs-github-url # https://github.com/oiricaud/storefront-ui
+      value: https://github.com/oiricaud/customer-ms-spring
     - name: revision
-      value: master
+      value: faa15c04dbf5a6d98d93c9755569d99c640d07df
+
+

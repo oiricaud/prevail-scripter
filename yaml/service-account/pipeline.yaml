@@ -1,0 +1,8 @@
+kind: ServiceAccount
+apiVersion: v1
+metadata:
+  name: pipeline
+  namespace: kabanero
+secrets:
+  - name: docker-push-secret
+  - name: git-cred

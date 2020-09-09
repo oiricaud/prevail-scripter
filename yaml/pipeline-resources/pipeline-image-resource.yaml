@@ -1,10 +1,10 @@
 apiVersion: tekton.dev/v1alpha1
 kind: PipelineResource
 metadata:
-  name: my-pipeline-resource-image
+  name: docker-image-mglg4
   namespace: kabanero
 spec:
   type: image
   params:
     - name: url
-      value: gcr.io/staging-images/kritis
+      value: docker.io/yellocabins/demo-with-andrew:latest
