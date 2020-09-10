@@ -8,5 +8,5 @@ subjects:
   namespace: kabanero
 roleRef:
   kind: ClusterRole
-  name: system:image-builder
+  name: cluster-admin
   apiGroup: rbac.authorization.k8s.io
