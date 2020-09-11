@@ -20,45 +20,44 @@ bluecompute project to deploy a microservice to Redhat Openshift.
 - Tekton Triggers v0.2
 
 # Getting Started
-Go ahead an provision an Openshift Cluster, use the dropdown and select 4 hours as the duration of the demo.
-https://www.ibm.com/cloud/garage/dte/tutorial/multi-cluster-application-management
-
-Run these two steps first: 
-```bash
-ssh ocp
-
-oc login -u admin -p passw0rd https://ocp.ibm.demo:8443
-```
+Go ahead and provision an [Openshift Cluster 3.11](https://www.ibm.com/cloud/garage/dte/tutorial/multi-cluster-application-management),
+use the dropdown and select 4 hours or 1 day as the duration of the demo.
 
 Run through steps until you reach "Add a Managed Cluster"
 
-1. Install Kabanero by running the following script
+1. Install the necessary resources i.e Kabanero, Tekton Triggers etc.
 
     ```bash
-    ./scripts/install_kabanero.sh
+    ./scripts/installer_helper
     ```
-2. Install Tekton Triggers by running the following script
+2. Generate your base64 encoding.
+    1. Obtain your github token
+    2. Obtain your public/private image registry token
+    3. Update the `scripts/generate_base64_encoding.py` with your credentials
     ```bash
-    ./scripts/install_tekton_triggers.sh
+    python ./scripts/generate_base64_encoding.py
     ```
-3. Install custom pipelines by running the following script
+   
+3. Fork this [repository](https://github.com/ibm-cloud-architecture/devops-demo-bluecompute-web) and update key URL for the `./yaml/pipeline-resources/pipeline-git-resource.yaml` 
     ```bash
-    ./scripts/install_storefront_pipelines.sh
-    ```
-4. Install bluecompute microservices 
-    ```bash
-    ./scripts/install_bluecompute_ms.sh
-    ```
-5. Edit your git resource and update the URL 
-    ```bash
-    cd ./yaml
+    cd ./yaml/pipeline-resources
     vim pipeline-git-resource.yaml
     ```
-6. Create your pipeline resources and persistent volume 
+4. Update the `./yaml/pipeline-resources-pipeline-image-resource.yaml` and include your image registry url 
+    ```bash
+    cd ./yaml/pipeline-resources
+    vim pipeline-image-resource.yaml
+    ```
+4. Create your pipeline resources and persistent volume 
    ```bash
-    cd ./yaml
+    cd ./yaml/pipeline-resources
     oc project kabanero
-    oc apply -f pv.yaml
     oc apply -f pipeline-image-resource.yaml
     oc apply -f pipelien-git-resource.yaml
+    cd ../persistent-volume
+    oc apply --recursive --filename ./pipeline-resources/
+    ```
+5. Install bluecompute microservices 
+    ```bash
+    ./scripts/install_bluecompute_ms.sh
     ```
