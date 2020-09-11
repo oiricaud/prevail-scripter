@@ -63,7 +63,11 @@ Run through steps until you reach "Add a Managed Cluster"
     cd ../persistent-volume
     oc apply --recursive --filename ./pipeline-resources/
     ```
-5. Install bluecompute microservices 
+6. Create a pipeline run
+    ``` bash
+   oc apply --recursive --filename ./yaml/pipeline-run/ 
+   ```
+7. Install bluecompute microservices 
     ```bash
     ./scripts/install_bluecompute_ms.sh
     ```
