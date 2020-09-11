@@ -34,9 +34,14 @@ Run through steps until you reach "Add a Managed Cluster"
     1. Obtain your github token
     2. Obtain your public/private image registry token
     3. Update the `scripts/generate_base64_encoding.py` with your credentials
-    ```bash
-    python ./scripts/generate_base64_encoding.py
-    ```
+        ```bash
+        python ./scripts/generate_base64_encoding.py
+        ```
+   4. Create your secrets
+       ```bash
+       oc project kabanero
+       oc apply --recursive --filename ./yaml/secrets
+       ```
    
 3. Fork this [repository](https://github.com/ibm-cloud-architecture/devops-demo-bluecompute-web) and update key URL for the `./yaml/pipeline-resources/pipeline-git-resource.yaml` 
     ```bash
@@ -48,7 +53,8 @@ Run through steps until you reach "Add a Managed Cluster"
     cd ./yaml/pipeline-resources
     vim pipeline-image-resource.yaml
     ```
-4. Create your pipeline resources and persistent volume 
+
+5. Create your pipeline resources and persistent volume 
    ```bash
     cd ./yaml/pipeline-resources
     oc project kabanero
