@@ -1,6 +1,8 @@
 apiVersion: tekton.dev/v1alpha1
 kind: Task
 metadata:
+  annotations:
+    manifestival: new
   name: nodejs-build-push-task
   namespace: kabanero
 spec:
@@ -16,70 +18,32 @@ spec:
         type: git
   steps:
     - args:
-        - '-c'
-        - >
+        - -c
+        - |
           #logic to make docker image image_name as lowercase
+          #example input docker-image-url=image-registry.openshift-image-registry.svc:5000/kabanero/appsodyMPversion:abcDEF
+          # Then output should be = image-registry.openshift-image-registry.svc:5000/kabanero/appsodympversion:abcDEF
 
-          #example input
-          docker-image-url=image-registry.openshift-image-registry.svc:5000/kabanero/appsodyMPversion:abcDEF
+          echo "OUTPUTS_RESOURCE_DOCKER_IMAGE_URL=\$( echo \$(outputs.resources.docker-image.url) ) " > imageurl_imagename_lowercase.sh
 
-          # Then output should be =
-          image-registry.openshift-image-registry.svc:5000/kabanero/appsodympversion:abcDEF
-
-
-          echo "OUTPUTS_RESOURCE_DOCKER_IMAGE_URL=\$( echo
-          \$(outputs.resources.docker-image.url) ) " >
-          imageurl_imagename_lowercase.sh
-
-
-          # we cut the string with last occurance of '/' to get image name and
-          tag as secondHalf of URL
-
-          echo "firstHalfURL=\$(echo \$OUTPUTS_RESOURCE_DOCKER_IMAGE_URL | rev |
-          cut -d\"/\" -f2- | rev)"  >> imageurl_imagename_lowercase.sh
-
-          echo "secondHalfURL=\$(echo \$OUTPUTS_RESOURCE_DOCKER_IMAGE_URL | rev
-          | cut -d\"/\" -f1 | rev)" >>  imageurl_imagename_lowercase.sh
-
+          # we cut the string with last occurance of '/' to get image name and tag as secondHalf of URL
+          echo "firstHalfURL=\$(echo \$OUTPUTS_RESOURCE_DOCKER_IMAGE_URL | rev | cut -d\"/\" -f2- | rev)"  >> imageurl_imagename_lowercase.sh
+          echo "secondHalfURL=\$(echo \$OUTPUTS_RESOURCE_DOCKER_IMAGE_URL | rev | cut -d\"/\" -f1 | rev)" >>  imageurl_imagename_lowercase.sh
 
           #Conditional check if ':' is present in 'secondHalfURL'.
-
           #for ex - secondHalfURL=appsodympversion:abcDEF
-
-          echo "if [[ \$secondHalfURL == *\":\"* ]]; then" >>
-          imageurl_imagename_lowercase.sh
-
-          echo "  imagename=\$(cut -d ':' -f 1 <<< \"\$secondHalfURL\" )" >>
-          imageurl_imagename_lowercase.sh
-
-          echo "  imagename_lowercase=\$(echo \$imagename |  tr '[:upper:]'
-          '[:lower:]')" >> imageurl_imagename_lowercase.sh
-
-          echo "  tagname=\$(cut -d ':' -f 2- <<< \"\$secondHalfURL\" )" >>
-          imageurl_imagename_lowercase.sh
-
-          echo "
-          OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE=\$firstHalfURL/\$imagename_lowercase:\$tagname"
-          >> imageurl_imagename_lowercase.sh
-
+          echo "if [[ \$secondHalfURL == *\":\"* ]]; then" >> imageurl_imagename_lowercase.sh
+          echo "  imagename=\$(cut -d ':' -f 1 <<< \"\$secondHalfURL\" )" >> imageurl_imagename_lowercase.sh
+          echo "  imagename_lowercase=\$(echo \$imagename |  tr '[:upper:]' '[:lower:]')" >> imageurl_imagename_lowercase.sh
+          echo "  tagname=\$(cut -d ':' -f 2- <<< \"\$secondHalfURL\" )" >> imageurl_imagename_lowercase.sh
+          echo " OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE=\$firstHalfURL/\$imagename_lowercase:\$tagname" >> imageurl_imagename_lowercase.sh
           #conditional check for ex - secondHalfURL=appsodympversion:abcDEF
-
           echo "else" >> imageurl_imagename_lowercase.sh
-
           echo "  imagename=\$secondHalfURL" >> imageurl_imagename_lowercase.sh
-
-          echo "  imagename_lowercase=\$(echo \$imagename |  tr '[:upper:]'
-          '[:lower:]')" >> imageurl_imagename_lowercase.sh
-
-          echo "
-          OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE=\$firstHalfURL/\$imagename_lowercase"
-          >> imageurl_imagename_lowercase.sh
-
+          echo "  imagename_lowercase=\$(echo \$imagename |  tr '[:upper:]' '[:lower:]')" >> imageurl_imagename_lowercase.sh
+          echo " OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE=\$firstHalfURL/\$imagename_lowercase" >> imageurl_imagename_lowercase.sh
           echo "fi" >> imageurl_imagename_lowercase.sh
-
-          echo "echo \"\$OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE\" " >>
-          imageurl_imagename_lowercase.sh
-
+          echo "echo \"\$OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE\" " >> imageurl_imagename_lowercase.sh
 
           chmod 755 imageurl_imagename_lowercase.sh
       command:
@@ -87,7 +51,7 @@ spec:
       env:
         - name: gitsource
           value: git-source
-      image: 'appsody/appsody-buildah:0.5.8-buildah1.9.0'
+      image: appsody/appsody-buildah:0.5.8-buildah1.9.0
       name: imagename-lowercase
       resources: {}
       securityContext:
@@ -96,15 +60,11 @@ spec:
         - mountPath: /var/lib/containers
           name: varlibcontainers
     - args:
-        - '-c'
-        - >
-          echo "DEBUGGGGggGGGGGGGGGG ${gitsource}"
-          echo "Configmap value for
-          DEFAULT_STACK_IMAGE_REGISTRY_URL=$DEFAULT_STACK_IMAGE_REGISTRY_URL"
-
+        - -c
+        - |
+          echo "Configmap value for DEFAULT_STACK_IMAGE_REGISTRY_URL=$DEFAULT_STACK_IMAGE_REGISTRY_URL"
 
           if [ -z "$DEFAULT_STACK_IMAGE_REGISTRY_URL" ]
-
           then
               echo "DEFAULT_STACK_IMAGE_REGISTRY_URL not configured in a config map.  Look for the stack registry info in the .appsody-cfg file."
               APPSODY_CONFIG=".appsody-config.yaml"
@@ -142,13 +102,9 @@ spec:
               STACK_IMAGE_REGISTRY_URL=$DEFAULT_STACK_IMAGE_REGISTRY_URL
           fi
 
-
           echo "Looking for stack registry at $STACK_IMAGE_REGISTRY_URL."
 
-
-          if [[ ( -z "$DEFAULT_STACK_IMAGE_REGISTRY_SECRET_USERNAME" ) || ( -z
-          "$DEFAULT_STACK_IMAGE_REGISTRY_SECRET_PASSWORD" ) ]]
-
+          if [[ ( -z "$DEFAULT_STACK_IMAGE_REGISTRY_SECRET_USERNAME" ) || ( -z "$DEFAULT_STACK_IMAGE_REGISTRY_SECRET_PASSWORD" ) ]]
           then
               echo "DEFAULT_STACK_IMAGE_REGISTRY_SECRET_USERNAME or DEFAULT_STACK_IMAGE_REGISTRY_SECRET_PASSWORD is empty.  Assumption is authentication to the registry is not required."
 
@@ -177,25 +133,13 @@ spec:
               ./cert-creation.sh
           fi
 
-
           cd /workspace/$gitsource
 
+          OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE=$( echo $( /workspace/imageurl_imagename_lowercase.sh ) )
+          echo "OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE=$OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE"
 
-          OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE=$( echo $(
-          /workspace/imageurl_imagename_lowercase.sh ) )
-
-          echo
-          "OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE=$OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE"
-
-
-          appsody build -t "$OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE"
-          --buildah --buildah-options "--format=docker" --stack-registry
-          "$STACK_IMAGE_REGISTRY_URL"
-
-          echo "Copying the generated app-deploy.yaml file from input to the
-          output to pass the file to the next task when this task is used in
-          deploy pipeline"
-
+          appsody build -t "$OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE" --buildah --buildah-options "--format=docker" --stack-registry "$STACK_IMAGE_REGISTRY_URL"
+          echo "Copying the generated app-deploy.yaml file from input to the output to pass the file to the next task when this task is used in deploy pipeline"
           cp app-deploy.yaml $(outputs.resources.git-source.path)
       command:
         - /bin/bash
@@ -203,7 +147,7 @@ spec:
         - name: gitsource
           value: git-source
         - name: internal_stack_registry_string
-          value: 'image-registry.openshift-image-registry.svc:5000'
+          value: image-registry.openshift-image-registry.svc:5000
         - name: DEFAULT_STACK_IMAGE_REGISTRY_URL
           valueFrom:
             configMapKeyRef:
@@ -222,7 +166,7 @@ spec:
               key: password
               name: default-stack-image-registry-secret
               optional: true
-      image: 'appsody/appsody-buildah:0.5.8-buildah1.9.0'
+      image: appsody/appsody-buildah:0.5.8-buildah1.9.0
       name: build
       resources: {}
       securityContext:
@@ -235,25 +179,19 @@ spec:
         - mountPath: /etc/secret-volume
           name: secret-volume
     - args:
-        - '-c'
-        - >
+        - -c
+        - |2
 
-          OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE=$( echo $(
-          /workspace/imageurl_imagename_lowercase.sh ) )
+          OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE=$( echo $( /workspace/imageurl_imagename_lowercase.sh ) )
+          echo "OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE=$OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE"
 
-          echo
-          "OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE=$OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE"
-
-
-          buildah push --tls-verify=false
-          "$OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE"
-          "docker://$OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE"
+          buildah push --tls-verify=false "$OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE" "docker://$OUTPUTS_RESOURCE_DOCKER_IMAGE_URL_LOWERCASE"
       command:
         - /bin/bash
       env:
         - name: gitsource
           value: git-source
-      image: 'appsody/appsody-buildah:0.5.8-buildah1.9.0'
+      image: appsody/appsody-buildah:0.5.8-buildah1.9.0
       name: push
       resources: {}
       securityContext:
