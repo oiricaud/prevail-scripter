@@ -27,7 +27,7 @@ Run through steps until you reach "Add a Managed Cluster"
 
 0. Clone this repository on your cluster
     ```bash
-   git clone https://username@github.com/Oscar-Ricaud/prevail-scripter 
+   git clone https://username@github.ibm.com/Oscar-Ricaud/prevail-scripter 
    ```
 1. Install the necessary resources i.e Kabanero, Tekton Triggers etc.
 

@@ -10,18 +10,18 @@ openshift_master_default_subdomain=ibm.demo ./install-kabanero-foundation.sh
 oc apply -n kabanero -f https://raw.githubusercontent.com/kabanero-io/kabanero-operator/0.2.0/config/samples/default.yaml
 
 echo "please wait 3 minutes..."
-sleep 3m # Waits 5 minutes.
+sleep 3m # Waits 3 minutes.
 echo "success installing kabanero"
 oc get pods
-oc adm policy add-scc-to-group privileged system:serviceaccounts:kabanero-operator
-oc adm policy add-scc-to-group anyuid system:serviceaccounts:kabanero-operator
+oc adm policy add-scc-to-group privileged system:serviceaccounts:kabanero
+oc adm policy add-scc-to-group anyuid system:serviceaccounts:kabanero
 
 # Install Tekton Triggers - https://github.com/tektoncd/triggers/blob/master/docs/install.md
 oc create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=admin
 oc new-project tekton-pipelines
 oc apply --filename https://storage.googleapis.com/tekton-releases/triggers/previous/v0.2.0/release.yaml
 
-echo "please wait another 3 minutes..."
-sleep 3m # Waits 5 minutes.
+echo "please wait 1 minutes..."
+sleep 1m # Waits 1 minutes.
 oc get pods
 echo "success installing tekton triggers"
